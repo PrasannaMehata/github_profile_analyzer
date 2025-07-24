@@ -1,5 +1,8 @@
+Lists the Python libraries required for the project to run:
 Flask
 requests
+
+Install them via:
 
 pip install -r requirements.txt
 
