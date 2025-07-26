@@ -3,7 +3,7 @@ import requests
 
 app = Flask(__name__)
 
-GITHUB_API_URL = "https://api.github.com/users/"
+GITHUB_API_URL = "https://github.com/PrasannaMehata/" #add your own github profile url or add github api
 
 def analyze_profile(username):
     user_url = GITHUB_API_URL + username
