@@ -1,16 +1,44 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>GitHub Profile Analyzer</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            text-align: center;
+            background: linear-gradient(to right, #e0eafc, #cfdef3);
+        }
+        input, button {
+            padding: 10px;
+            margin: 10px;
+            font-size: 16px;
+        }
+        #profile {
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 10px;
+            background: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            display: none;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        canvas {
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
     <h2>GitHub Profile Analyzer</h2>
     <input id="username" placeholder="Enter GitHub Username" />
     <button onclick="analyze()">Analyze</button>
 
-    <div id="profile" style="display: none;">
-        <img id="avatar" width="100"><h3 id="name"></h3>
+    <div id="profile">
+        <img id="avatar" width="100" style="border-radius: 50%;"><h3 id="name"></h3>
         <p><b>Total Repos:</b> <span id="repos"></span></p>
         <p><b>Stars:</b> <span id="stars"></span></p>
         <p><b>Forks:</b> <span id="forks"></span></p>
@@ -18,37 +46,5 @@
         <canvas id="langChart" width="400" height="400"></canvas>
     </div>
 
-    <script>
-        async function analyze() {
-            const username = document.getElementById("username").value;
-            const res = await fetch('/analyze', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ username })
-            });
-            const data = await res.json();
-
-            document.getElementById("profile").style.display = 'block';
-            document.getElementById("avatar").src = data.avatar;
-            document.getElementById("name").textContent = data.name;
-            document.getElementById("repos").textContent = data.repos;
-            document.getElementById("stars").textContent = data.stars;
-            document.getElementById("forks").textContent = data.forks;
-            document.getElementById("rating").textContent = data.rating;
-
-            const ctx = document.getElementById('langChart').getContext('2d');
-            new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    labels: Object.keys(data.languages),
-                    datasets: [{
-                        label: 'Languages',
-                        data: Object.values(data.languages),
-                        backgroundColor: ['#36a2eb','#ff6384','#ffce56','#4bc0c0','#9966ff']
-                    }]
-                }
-            });
-        }
-    </script>
 </body>
 </html>
